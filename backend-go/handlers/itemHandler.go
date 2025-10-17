@@ -37,7 +37,6 @@ func (h *ItemHandler) GetItem(c *fiber.Ctx) error {
 			"error": "Item ID is required",
 		})
 	}
-
 	if err := h.DB.First(&item, id).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Failed to fetch item",
@@ -90,38 +89,30 @@ func (h *ItemHandler) DeleteItem(c *fiber.Ctx) error {
 	})
 }
 
-func (h *ItemHandler) GetAvarageCost(c *fiber.Ctx) error {
+func (h *ItemHandler) GetSummary(c *fiber.Ctx) error {
 	var items []models.Item
-	if err := h.DB.Find(&items).Error; err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Failed to fetch items",
-		})
-	}
-	var total float64
-	for _, item := range items {
-		total += item.Price
-	}
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"status":  "success",
-		"message": "Average cost fetched successfully",
-		"average": total / float64(len(items)),
-	})
-}
+	var totalCost float64
+	var averageCost float64
 
-func (h *ItemHandler) GetTotalCost(c *fiber.Ctx) error {
-	var items []models.Item
-	if err := h.DB.Find(&items).Error; err != nil {
+	err := h.DB.Find(&items).Error
+	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Failed to fetch items",
+			"error": "Failed to fetch items for summary",
 		})
 	}
-	var total float64
+
 	for _, item := range items {
-		total += item.Price
+		totalCost += item.Price
 	}
+
+	averageCost = totalCost / float64(len(items))
+
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status":  "success",
-		"message": "Total cost fetched successfully",
-		"total":   total,
+		"message": "Summary fetched successfully",
+		"summary": fiber.Map{
+			"totalCost":   totalCost,
+			"averageCost": averageCost,
+		},
 	})
 }
