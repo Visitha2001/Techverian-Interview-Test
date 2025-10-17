@@ -10,6 +10,5 @@ func RegisterItemRoutes(app *fiber.App, handler *handlers.ItemHandler) {
 	api.Post("", handler.CreateItem)
 	api.Get("", handler.GetItems)
 	api.Get("/:id", handler.GetItem)
-	api.Get("/total-cost", handler.GetTotalCost)
-	api.Get("/average-cost", handler.GetAvarageCost)
+	api.Get("/all/summary", handler.GetSummary)
 }

@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	"github.com/visitha2001/backend-go/handlers"
 	"github.com/visitha2001/backend-go/models"
@@ -44,7 +45,17 @@ func main() {
 	app := fiber.New()
 	itemHandler := &handlers.ItemHandler{DB: db}
 
-	// routes
+	// cors
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+	}))
+
+	// log all requests
+	app.Use(func(c *fiber.Ctx) error {
+		log.Println(c.Method(), c.Path(), c.Response().StatusCode())
+		return c.Next()
+	})
+	// health check
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
