@@ -49,7 +49,7 @@ const ItemList = ({ refreshKey }: ItemListProps) => {
 
   return (
     <>
-    <div className="flex flex-col gap-4 w-full h-[500px]">
+    <div className="flex flex-col gap-4 w-full sm:h-[500px] h-[700px]">
       <div className="bg-gray-800 p-6 rounded-3xl flex flex-col flex-grow min-h-0">
         <h2 className="text-2xl font-bold mb-4 flex-shrink-0">
           Item List <span className="text-green-500">({items.length})</span>
@@ -65,7 +65,7 @@ const ItemList = ({ refreshKey }: ItemListProps) => {
         </div>
       </div>
 
-      <div className="flex flex-row gap-4">
+      <div className="flex sm:flex-row flex-col gap-4">
         <div className="w-full bg-gray-800 p-6 rounded-3xl flex flex-col gap-2">
           <p className="text-lg font-medium ">Average Cost:</p>
           <span className="text-green-500 text-2xl font-bold">${averageCost.toFixed(2)}</span>
