@@ -9,9 +9,9 @@ function App() {
 
   return (
     <>
-      <div className='flex flex-col justify-center items-center h-screen w-7xl mx-auto'>
+      <div className='flex flex-col justify-center items-center sm:h-screen h-auto min-h-screen sm:py-0 py-10 sm:px-0 px-6 sm:w-7xl w-full mx-auto'>
         <h1 className='text-3xl font-bold'>Add Items For Database And Get Stats</h1>
-        <div className="flex w-full flex-col-2 gap-4 mt-10">
+        <div className="flex w-full flex-col gap-4 mt-10 sm:flex-row">
           <ItemForm onAdded={handleAdded} />
           <ItemList refreshKey={refreshKey} />
         </div>
